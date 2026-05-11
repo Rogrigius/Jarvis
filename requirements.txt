@@ -2,7 +2,6 @@ PyQt6
 vosk
 pyttsx3
 SpeechRecognition
-keyboard
 pynput
 psutil
 customtkinter
@@ -10,4 +9,4 @@ darkdetect
 pytest
 sounddevice
 numpy
-playsound
+playsound==1.2.2
