@@ -1,0 +1,98 @@
+import os
+import sys
+import threading
+import time
+from PyQt6.QtWidgets import QApplication
+from jarvis.utils.config import ConfigManager
+from jarvis.utils.logger import logger
+from jarvis.core.speech import SpeechEngine
+from jarvis.core.recognition import RecognitionEngine
+from jarvis.core.plugin_manager import PluginManager
+from jarvis.core.command_engine import CommandEngine
+from jarvis.utils.activity_tracker import ActivityTracker
+from jarvis.gui.main_window import MainWindow
+
+class Jarvis:
+    def __init__(self):
+        logger.info("Инициализация ДЖАРВИСА...")
+        self.config = ConfigManager()
+        self.speech = SpeechEngine()
+        self.recognition = RecognitionEngine(
+            sensitivity=self.config.get_setting("recognition_sensitivity", 0.5)
+        )
+        self.plugin_manager = PluginManager(self)
+        self.plugin_manager.load_plugins()
+        self.command_engine = CommandEngine(self)
+        self.activity_tracker = ActivityTracker(
+            self, 
+            limit_minutes=self.config.get_setting("user_activity_timer_minutes", 120)
+        )
+        
+        self.running = False
+        self.ui = None
+        self.hotkey_thread = None
+
+    def start(self):
+        self.running = True
+        self.activity_tracker.start()
+        
+        # Start voice recognition thread
+        self.recognition_thread = threading.Thread(target=self._recognition_loop, daemon=True)
+        self.recognition_thread.start()
+        
+        # Start Hotkey thread
+        self.hotkey_thread = threading.Thread(target=self._setup_hotkeys, daemon=True)
+        self.hotkey_thread.start()
+        
+        logger.info("Системы ДЖАРВИСА активны.")
+
+    def stop(self):
+        self.running = False
+        self.activity_tracker.stop()
+        logger.info("Выключение ДЖАРВИСА...")
+
+    def _setup_hotkeys(self):
+        try:
+            import keyboard
+            # Ctrl+Shift+J to wake up JARVIS
+            keyboard.add_hotkey('ctrl+shift+j', self._on_hotkey)
+            keyboard.wait()
+        except Exception as e:
+            logger.error(f"Ошибка настройки горячих клавиш: {e}")
+
+    def _on_hotkey(self):
+        logger.info("Горячая клавиша нажата!")
+        if self.ui:
+            self.ui.manual_trigger()
+        self.speech.speak("Я слушаю вас, сэр.")
+
+    def _recognition_loop(self):
+        while self.running:
+            try:
+                text = self.recognition.listen()
+                if text:
+                    self.command_engine.process_text(text)
+                    if self.ui:
+                        self.ui.update_log(f"Пользователь: {text}")
+            except Exception as e:
+                logger.error(f"Ошибка в цикле распознавания: {e}")
+            time.sleep(0.1)
+
+    def ui_notify(self, title, message):
+        if self.ui:
+            self.ui.update_log(f"[{title}] {message}")
+
+def main():
+    app = QApplication(sys.argv)
+    
+    jarvis = Jarvis()
+    window = MainWindow(jarvis)
+    jarvis.ui = window
+    
+    jarvis.start()
+    window.show()
+    
+    sys.exit(app.exec())
+
+if __name__ == "__main__":
+    main()
