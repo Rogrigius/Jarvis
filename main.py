@@ -53,10 +53,18 @@ class Jarvis:
 
     def _setup_hotkeys(self):
         try:
-            import keyboard
-            # Ctrl+Shift+J to wake up JARVIS
-            keyboard.add_hotkey('ctrl+shift+j', self._on_hotkey)
-            keyboard.wait()
+            from pynput import keyboard
+
+            # Use KeyCode for combined keys
+            hotkey = keyboard.HotKey(
+                keyboard.HotKey.parse('<ctrl>+<shift>+j'),
+                self._on_hotkey
+            )
+
+            with keyboard.Listener(
+                    on_press=lambda k: hotkey.press(self.listener.canonical(k)),
+                    on_release=lambda k: hotkey.release(self.listener.canonical(k))) as self.listener:
+                self.listener.join()
         except Exception as e:
             logger.error(f"Ошибка настройки горячих клавиш: {e}")
 
