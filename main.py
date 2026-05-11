@@ -2,11 +2,22 @@ import os
 import sys
 from pathlib import Path
 
-# Добавляем корневую директорию проекта в sys.path
-# Это необходимо для корректного импорта модулей из пакета jarvis
-project_root = Path(__file__).resolve().parent
-if str(project_root) not in sys.path:
-    sys.path.insert(0, str(project_root))
+# Принудительно устанавливаем путь к корню проекта
+# Это должно быть ПЕРВЫМ действием в скрипте
+project_root = str(Path(__file__).resolve().parent)
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
+# Проверка на конфликт имен пакета 'jarvis'
+try:
+    import jarvis
+    # Если пакет импортирован не из нашей папки, удаляем его из кэша и импортируем заново
+    if not hasattr(jarvis, '__file__') or project_root not in jarvis.__file__:
+        if 'jarvis' in sys.modules:
+            del sys.modules['jarvis']
+        import jarvis
+except ImportError:
+    pass
 
 import threading
 import time

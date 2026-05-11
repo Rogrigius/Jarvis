@@ -21,12 +21,21 @@ if not exist "venv" (
 
 :: Активация и установка зависимостей
 echo Установка зависимостей...
-call venv\Scripts\activate.bat
+if exist "venv\Scripts\activate.bat" (
+    call venv\Scripts\activate.bat
+) else (
+    echo Ошибка: не удалось найти venv\Scripts\activate.bat.
+    pause
+    exit /b
+)
+
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 
-:: Установка PYTHONPATH для надежности
-set "PYTHONPATH=%~dp0;!PYTHONPATH!"
+:: Установка PYTHONPATH для надежности (без лишних слешей)
+set "PROJECT_ROOT=%~dp0"
+if "!PROJECT_ROOT:~-1!"=="\" set "PROJECT_ROOT=!PROJECT_ROOT:~0,-1!"
+set "PYTHONPATH=!PROJECT_ROOT!;!PYTHONPATH!"
 
 :: Запуск приложения
 echo Запуск ДЖАРВИСА...
