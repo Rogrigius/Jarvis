@@ -1,5 +1,9 @@
 import os
 import sys
+
+# Добавляем корневую директорию в путь поиска модулей
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 import threading
 import time
 from PyQt6.QtWidgets import QApplication

@@ -24,6 +24,7 @@ pip install -r requirements.txt
 
 :: Запуск приложения
 echo Запуск ДЖАРВИСА...
+set PYTHONPATH=%PYTHONPATH%;.
 python main.py
 
 pause
