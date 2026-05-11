@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QListWidget, QListWidgetItem, QLineEdit, QPushButton, QFormLayout
-from jarvis.utils.logger import logger
+from jarvis_voice.utils.logger import logger
 
 class CommandEditor(QWidget):
     def __init__(self, jarvis_context):

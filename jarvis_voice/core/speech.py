@@ -1,7 +1,7 @@
 import pyttsx3
 import threading
 import os
-from jarvis.utils.logger import logger
+from jarvis_voice.utils.logger import logger
 
 class SpeechEngine:
     def __init__(self, rate=175, volume=1.0):

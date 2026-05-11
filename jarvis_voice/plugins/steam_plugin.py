@@ -1,8 +1,8 @@
 import os
 import psutil
 import webbrowser
-from jarvis.plugins.plugin_base import PluginBase
-from jarvis.utils.logger import logger
+from jarvis_voice.plugins.plugin_base import PluginBase
+from jarvis_voice.utils.logger import logger
 
 class SteamPlugin(PluginBase):
     def get_commands(self):

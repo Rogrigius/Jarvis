@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QFormLayout, QSlider, QComboBox, QCheckBox, QSpinBox, QLabel, QPushButton
 from PyQt6.QtCore import Qt
-from jarvis.utils.logger import logger
-from jarvis.utils.startup import add_to_startup, remove_from_startup
+from jarvis_voice.utils.logger import logger
+from jarvis_voice.utils.startup import add_to_startup, remove_from_startup
 
 class SettingsWindow(QWidget):
     def __init__(self, jarvis_context):

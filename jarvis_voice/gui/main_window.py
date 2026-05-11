@@ -1,10 +1,10 @@
 from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QTabWidget, QPushButton, QSystemTrayIcon, QMenu
 from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6.QtCore import Qt, QTimer
-from jarvis.gui.styles import STYLE_SHEET
-from jarvis.gui.command_editor import CommandEditor
-from jarvis.gui.settings_window import SettingsWindow
-from jarvis.utils.logger import logger
+from jarvis_voice.gui.styles import STYLE_SHEET
+from jarvis_voice.gui.command_editor import CommandEditor
+from jarvis_voice.gui.settings_window import SettingsWindow
+from jarvis_voice.utils.logger import logger
 
 class MainWindow(QMainWindow):
     def __init__(self, jarvis_context):

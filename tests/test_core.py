@@ -2,10 +2,10 @@ import pytest
 import os
 import json
 from unittest.mock import MagicMock, patch
-from jarvis.utils.config import ConfigManager, DEFAULT_CONFIG
-from jarvis.core.plugin_manager import PluginManager
-from jarvis.core.command_engine import CommandEngine
-from jarvis.core.speech import SpeechEngine
+from jarvis_voice.utils.config import ConfigManager, DEFAULT_CONFIG
+from jarvis_voice.core.plugin_manager import PluginManager
+from jarvis_voice.core.command_engine import CommandEngine
+from jarvis_voice.core.speech import SpeechEngine
 
 @pytest.fixture
 def temp_config(tmp_path):
@@ -52,7 +52,7 @@ def test_speech_engine(mock_init):
     mock_init.assert_called()
 
 def test_activity_tracker():
-    from jarvis.utils.activity_tracker import ActivityTracker
+    from jarvis_voice.utils.activity_tracker import ActivityTracker
     mock_jarvis = MagicMock()
     tracker = ActivityTracker(mock_jarvis, limit_minutes=1)
     assert tracker.limit_seconds == 60

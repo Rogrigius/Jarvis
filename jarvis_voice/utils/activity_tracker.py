@@ -1,6 +1,6 @@
 import time
 import threading
-from jarvis.utils.logger import logger
+from jarvis_voice.utils.logger import logger
 
 class ActivityTracker:
     def __init__(self, jarvis_context, limit_minutes=120):

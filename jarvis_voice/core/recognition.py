@@ -4,7 +4,7 @@ import json
 import sounddevice as sd
 from vosk import Model, KaldiRecognizer
 import speech_recognition as sr
-from jarvis.utils.logger import logger
+from jarvis_voice.utils.logger import logger
 
 class RecognitionEngine:
     def __init__(self, sensitivity=0.5):
@@ -37,7 +37,7 @@ class RecognitionEngine:
             except Exception as e:
                 logger.error(f"Ошибка Vosk: {e}")
                 # Fallback to Google if Vosk fails
-        
+
         # Fallback to SpeechRecognition (Google)
         return self._listen_google()
 

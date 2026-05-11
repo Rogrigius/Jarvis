@@ -1,8 +1,8 @@
 import importlib
 import os
 import inspect
-from jarvis.utils.logger import logger
-from jarvis.plugins.plugin_base import PluginBase
+from jarvis_voice.utils.logger import logger
+from jarvis_voice.plugins.plugin_base import PluginBase
 
 class PluginManager:
     def __init__(self, jarvis_context, plugin_dir="jarvis/plugins"):
@@ -18,7 +18,7 @@ class PluginManager:
 
         for filename in os.listdir(self.plugin_dir):
             if filename.endswith("_plugin.py") and filename != "plugin_base.py":
-                module_name = f"jarvis.plugins.{filename[:-3]}"
+                module_name = f"jarvis_voice.plugins.{filename[:-3]}"
                 try:
                     module = importlib.import_module(module_name)
                     for name, obj in inspect.getmembers(module):

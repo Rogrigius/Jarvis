@@ -1,6 +1,6 @@
 import os
 import sys
-from jarvis.utils.logger import logger
+from jarvis_voice.utils.logger import logger
 
 def add_to_startup():
     """Adds the application to Windows Startup."""
