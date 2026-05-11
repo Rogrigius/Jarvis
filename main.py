@@ -1,8 +1,12 @@
 import os
 import sys
+from pathlib import Path
 
-# Добавляем корневую директорию в путь поиска модулей
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+# Добавляем корневую директорию проекта в sys.path
+# Это необходимо для корректного импорта модулей из пакета jarvis
+project_root = Path(__file__).resolve().parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
 
 import threading
 import time
@@ -59,7 +63,7 @@ class Jarvis:
         try:
             from pynput import keyboard
 
-            # Use KeyCode for combined keys
+            # Ctrl+Shift+J to wake up JARVIS
             hotkey = keyboard.HotKey(
                 keyboard.HotKey.parse('<ctrl>+<shift>+j'),
                 self._on_hotkey

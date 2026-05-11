@@ -1,4 +1,7 @@
 @echo off
+setlocal enabledelayedexpansion
+
+:: Переход в директорию скрипта
 cd /d "%~dp0"
 echo Инициализация ДЖАРВИСА...
 
@@ -22,9 +25,11 @@ call venv\Scripts\activate.bat
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 
+:: Установка PYTHONPATH для надежности
+set "PYTHONPATH=%~dp0;!PYTHONPATH!"
+
 :: Запуск приложения
 echo Запуск ДЖАРВИСА...
-set PYTHONPATH=%PYTHONPATH%;.
 python main.py
 
 pause
